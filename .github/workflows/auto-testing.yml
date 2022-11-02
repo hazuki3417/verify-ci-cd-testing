@@ -23,7 +23,7 @@ jobs:
         run: ls -al
 
       -
-        run: php src/index.php
+        run: php src/php/index.php
 
 
 
