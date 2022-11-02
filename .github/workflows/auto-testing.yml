@@ -19,6 +19,12 @@ jobs:
       -
         run: php -v
 
+      -
+        run: ls -al
+
+      -
+        run: pwd
+
 
 
 # deploy-api-image-ghcr:
