@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  verify-ci-cd-php-fpm:
+    build:
+      context: ./
+      dockerfile: docker/verify-ci-cd-php-fpm/Dockerfile
+    image: verify-ci-cd-php-fpm
+    hostname: verify-ci-cd-php-fpm
+    container_name: verify-ci-cd-php-fpm
+    volumes:
+      - ./src/php:/var/www/html
+
+  verify-ci-cd-mongo:
+    build:
+      context: ./
+      dockerfile: docker/verify-ci-cd-mongo/Dockerfile
+    image: verify-ci-cd-mongo
+    hostname: verify-ci-cd-mongo
+    container_name: verify-ci-cd-mongo
