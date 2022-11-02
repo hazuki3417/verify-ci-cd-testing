@@ -1,0 +1,23 @@
+name: auto testing
+on:
+  workflow_dispatch:
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    -
+      run: docker-compose build
+
+    -
+      run: docker-compose up -d
+
+    -
+      run: docker-compose ps
+
+    -
+      run: docker-compose run --rm verify-ci-cd-php-fpm php index.php
