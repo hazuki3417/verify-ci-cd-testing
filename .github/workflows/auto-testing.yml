@@ -6,18 +6,46 @@ jobs:
   testing:
     runs-on: ubuntu-latest
 
+    services:
+      verify-ci-cd-mongo:
+        image: ghcr.io/hazuki3417/verify-ci-cd-mongo:latest
+      verify-ci-cd-php-fpm:
+        image: ghcr.io/hazuki3417/verify-ci-cd-php-fpm:latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Check out repository code
+        uses: actions/checkout@v3
 
-    -
-      run: docker-compose build
+      -
+        run: docker ps -a
 
-    -
-      run: docker-compose up -d
+      -
+        run: docker run verify-ci-cd-php-fpm php -v
 
-    -
-      run: docker-compose ps
 
-    -
-      run: docker-compose run --rm verify-ci-cd-php-fpm php index.php
+
+# deploy-api-image-ghcr:
+#   runs-on: ubuntu-latest
+#   env:
+#     BASE_BRANCH: main
+#     IMAGE_OWNER: hazuki3417
+#     IMAGE_NAME: testing-file-generator-api
+
+#   steps:
+#     - uses: actions/checkout@v2
+#       with:
+#         ref: ${{ env.BASE_BRANCH }}
+
+#     - name: Set GITHUB_ENV
+#       run: |
+#         echo ${{ github.event.release.tag_name }} | sed -E 's/v([0-9]+.[0-9]+.[0-9]+)/RELEASE_VERSION=\1/i' >> $GITHUB_ENV
+#     - name: Build image
+#       run: make build -e IMAGE_NAME=${{ env.IMAGE_NAME }}
+
+#     - name: Set image tag
+#       run: make set-tag-ghcr -e IMAGE_OWNER=${{ env.IMAGE_OWNER }} IMAGE_NAME=${{ env.IMAGE_NAME }} RELEASE_VERSION=${{ env.RELEASE_VERSION }}
+
+#     - name: Login GitHub Container Registry
+#       run: make login-ghcr -e PAT_GITHUB=${{ secrets.PAT_FOR_GITHUB }} GITHUB_USER=${{ env.IMAGE_OWNER }}
+
+#     - name: Push GitHub Container Registry
+#       run: make push-ghcr -e IMAGE_OWNER=${{ env.IMAGE_OWNER }} IMAGE_NAME=${{ env.IMAGE_NAME }} RELEASE_VERSION=${{ env.RELEASE_VERSION }}
