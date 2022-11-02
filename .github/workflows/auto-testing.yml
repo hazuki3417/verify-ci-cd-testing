@@ -5,12 +5,13 @@ on:
 jobs:
   testing:
     runs-on: ubuntu-latest
+    container: ghcr.io/hazuki3417/verify-ci-cd-php-fpm:latest
 
     services:
       verify-ci-cd-mongo:
         image: ghcr.io/hazuki3417/verify-ci-cd-mongo:latest
-      verify-ci-cd-php-fpm:
-        image: ghcr.io/hazuki3417/verify-ci-cd-php-fpm:latest
+      # verify-ci-cd-php-fpm:
+      #   image: ghcr.io/hazuki3417/verify-ci-cd-php-fpm:latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -19,7 +20,7 @@ jobs:
         run: docker ps -a
 
       -
-        run: docker run verify-ci-cd-php-fpm php -v
+        run: php -v
 
 
 
