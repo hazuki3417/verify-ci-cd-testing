@@ -26,7 +26,7 @@ jobs:
         run: ls -al
 
       -
-        run: which docker
+        run: docker --help
 
 
 
